@@ -689,10 +689,6 @@ video {
   margin-bottom: 72px;
 }
 
-.me-2 {
-  margin-inline-end: 0.5rem;
-}
-
 .me-3 {
   margin-inline-end: 0.75rem;
 }
@@ -707,10 +703,6 @@ video {
 
 .ms-0 {
   margin-inline-start: 0px;
-}
-
-.ms-3 {
-  margin-inline-start: 0.75rem;
 }
 
 .mt-1 {
@@ -825,10 +817,6 @@ video {
   height: 0.75rem;
 }
 
-.h-4 {
-  height: 1rem;
-}
-
 .h-5 {
   height: 1.25rem;
 }
@@ -899,10 +887,6 @@ video {
 
 .w-3 {
   width: 0.75rem;
-}
-
-.w-4 {
-  width: 1rem;
 }
 
 .w-5 {
@@ -1655,11 +1639,6 @@ video {
   background-color: rgb(233 236 239 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-slate-700:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(73 80 87 / var(--tw-bg-opacity));
-}
-
 .hover\:bg-slate-800:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(52 58 64 / var(--tw-bg-opacity));
@@ -1803,10 +1782,6 @@ video {
 
   .md\:me-6 {
     margin-inline-end: 1.5rem;
-  }
-
-  .md\:ml-20 {
-    margin-left: 5rem;
   }
 
   .md\:ml-8 {
@@ -2409,11 +2384,6 @@ video {
   .xl\:text-white {
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity));
-  }
-
-  .xl\:hover\:bg-primary:hover {
-    --tw-bg-opacity: 1;
-    background-color: rgb(5 88 212 / var(--tw-bg-opacity));
   }
 
   .xl\:hover\:bg-transparent:hover {

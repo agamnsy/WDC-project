@@ -3,10 +3,10 @@ const nav = document.getElementById('nav');
 const logo = document.getElementById('logo');
 const text = document.getElementsByClassName('navbar');
 const language = document.getElementById('language');
-// const languageTexts = document.querySelectorAll('.language-text');
-// const idns = document.querySelectorAll(".idn");
-// const svgIdns = document.querySelectorAll(".flag-idn");
-// const engs = document.querySelectorAll(".eng");
+const languageTexts = document.querySelectorAll('.language-text');
+const idns = document.querySelectorAll(".idn");
+const svgIdns = document.querySelectorAll(".flag-idn");
+const engs = document.querySelectorAll(".eng");
 const humberger = document.getElementById('humberger');
 const homeHeight = nav.clientHeight;
 
@@ -19,12 +19,63 @@ const loveLg = document.getElementsByClassName('love-lg');
 const textLg = document.getElementsByClassName('btn-text');
 const checkLg = document.getElementsByClassName('check-lg');
 
-const languageText = document.getElementById('language-text');
-const idn = document.getElementById("idn");
-const svgIdn = document.getElementById("flag-idn");
-const eng = document.getElementById("eng");
 
+// function changeLanguage(lang) {
+//     localStorage.setItem('language', lang);
+//     window.location.reload();
+// }
 
+window.addEventListener('load', function() {
+    const savedLanguage = localStorage.getItem('language');
+    if(savedLanguage === 'eng') {
+        setLanguage(savedLanguage);
+        languageTexts.forEach(function(languageText) {
+            languageText.innerText = 'ENG';
+        });
+        svgIdns.forEach(function(svgIdn) {
+            svgIdn.setAttribute('src', '/public/assets/icon-eng.png');
+        });
+        localStorage.getItem('language', savedLanguage);
+    } else if(savedLanguage === 'idn') {
+        setLanguage(savedLanguage);
+        languageTexts.forEach(function(languageText) {
+            languageText.innerText = 'IDN';
+        });
+        svgIdns.forEach(function(svgIdn) {
+            svgIdn.setAttribute('src', '/public/assets/icon-idn.png');
+        });
+        localStorage.getItem('language', savedLanguage);
+    }
+});
+
+engs.forEach(function(item) {
+    item.addEventListener('click', function() {
+        languageTexts.forEach(function(languageText) {
+            languageText.innerText = 'ENG';
+        });
+        svgIdns.forEach(function(svgIdn) {
+            svgIdn.setAttribute('src', '/public/assets/icon-eng.png');
+        });
+        setLanguage('eng');
+        // changeLanguage('eng');
+        localStorage.getItem('language', 'eng');
+    });
+});
+
+// Ambil elemen dengan kelas idn dan tambahkan event listener
+idns.forEach(function(item) {
+    item.addEventListener('click', function() {
+        languageTexts.forEach(function(languageText) {
+            languageText.innerText = 'IDN';
+        });
+        svgIdns.forEach(function(svgIdn) {
+            svgIdn.setAttribute('src', '/public/assets/icon-idn.png');
+        });
+        setLanguage('idn');
+        // changeLanguage('idn');
+        localStorage.getItem('language', 'idn');
+    });
+});
 
 
 function handleFavClick(btnFav, love, check, cardId) {
@@ -55,21 +106,6 @@ function handleFavClick(btnFavLg, loveLg, checkLg, cardId) {
     });
 }
 
-function handleFavChange(check, love, cardId) {
-    check.addEventListener('change', function () {
-        if (check.checked) {
-            localStorage.setItem(`isFavorited_${cardId}`, "true");
-            love.classList.add('fa-solid', 'text-red-700');
-            love.classList.remove('fa-regular', 'text-slate-600');
-        } else {
-            localStorage.removeItem(`isFavorited_${cardId}`);
-            love.classList.add('fa-regular', 'text-slate-600');
-            love.classList.remove('fa-solid', 'text-red-700');
-        }
-        reloadPage();
-    });
-}
-
 Array.from(btnFav).forEach((button, index) => {
     const cardId = button.closest('.card').dataset.id; 
     handleFavClick(button, love[index], check[index], cardId);
@@ -81,21 +117,12 @@ Array.from(btnFavLg).forEach((button, index) => {
 });
 
 
-function reloadPageIfChanged() {
-    if (favChanged) { 
-        setTimeout(function(){
-            window.location.reload(); 
-        }, 1000);
-    }
-}
-
 for (let i = 0; i < btnFav.length; i++) {
     const cardId = btnFav[i].closest('.card').dataset.id;
     const isFavorited = localStorage.getItem(`isFavorited_${cardId}`);
-
     if (isFavorited === "true") {
         check[i].checked = true;
-    } 
+    }
 
     if (check[i].checked) {
         love[i].classList.add('fa-solid', 'text-red-700');
@@ -104,7 +131,6 @@ for (let i = 0; i < btnFav.length; i++) {
         love[i].classList.remove('fa-solid', 'text-red-700');
     }
 }
-
 for (let i = 0; i < btnFavLg.length; i++) {
     const cardId = btnFavLg[i].closest('.btn-fav-lg').dataset.id;
     const isFavorited = localStorage.getItem(`isFavorited_${cardId}`);
@@ -120,7 +146,6 @@ for (let i = 0; i < btnFavLg.length; i++) {
     }
 }
 
-
 const navActive = document.getElementsByClassName('nav-active')[0];
 
 window.addEventListener('scroll', function () {
@@ -131,41 +156,42 @@ window.addEventListener('scroll', function () {
     nav.style.backgroundColor = isScrolled ? 'white' : 'transparent';
     logo.style.color = isScrolled ? 'black' : 'white';
 
+
     nav.style.boxShadow = isScrolled ? '0px 4px 10px -2px rgba(0,0,0,0.1)' : 'none';
    
     if (screenWidth < 768) {
-        navActive.style.color = isScrolled ? 'white' : 'white';
+        navActive.style.color = isScrolled ? 'black' : 'black';
         language.style.color = isScrolled ? 'black' : 'white';
         humberger.style.color = isScrolled ? 'black' : 'white';
     } else {
+        
         for (let i = 0; i < text.length; i++) {
             text[i].style.color = isScrolled ? 'black' : 'white';
     
             text[i].addEventListener('mouseenter', function(e){
-                navActive.style.color = isScrolled ? '#0558D4' : '#0558D4';
-                text[i].style.color = isScrolled ? '#0558D4' : '#0558D4';
+                text[i].style.color = isScrolled ? 'blue' : 'blue';
+                navActive.style.color = isScrolled ? 'blue' : 'blue';
             })
             
             text[i].addEventListener('mouseleave', function(e){
-                navActive.style.color = isScrolled ? '#0558D4' : '#0558D4';
+                navActive.style.color = isScrolled ? 'blue' : 'blue';
                 text[i].style.color = isScrolled ? 'black' : 'white';
             })
         }
-        
-        // navActive.style.color = isScrolled ? 'blue' : 'blue';
-        language.style.color = isScrolled ? 'black' : 'white';
+
+        // language.style.color = isScrolled ? 'black' : 'white';
         humberger.style.color = isScrolled ? 'black' : 'white';
     }
-    
-    language.addEventListener('mouseenter', function(e){
-        // navActive.style.color = isScrolled ? 'blue' : 'blue';
-        language.style.color = isScrolled ? 'white' : 'white';
-    });
-    
-    language.addEventListener('mouseleave', function(e){
-        // navActive.style.color = isScrolled ? 'blue' : 'blue';
-        language.style.color = isScrolled ? 'black' : 'white';
-    });
+
+    // language.addEventListener('mouseenter', function(e){
+    //     navActive.style.color = isScrolled ? 'blue' : 'blue';
+    //     language.style.color = isScrolled ? 'white' : 'white';
+    // });
+
+    // language.addEventListener('mouseleave', function(e){
+    //     language.style.color = isScrolled ? 'black' : 'white';
+    //     navActive.style.color = isScrolled ? 'blue' : 'blue';
+    // });
 });
 
 
@@ -189,49 +215,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-
-const idn1 = document.getElementById('idn-1');
-const eng1 = document.getElementById('eng-1');
-const svgIdn1 = document.getElementById('flag-idn-1');
-const languagetext1 = document.getElementById('language-text-1');
-
-function changeLanguage(lang) {
-    localStorage.setItem('language', lang);
-    window.location.reload();
-}
-
-
-window.addEventListener('load', function() {
-    const savedLanguage = localStorage.getItem('language');
-    if(savedLanguage === 'eng') {
-        setLanguage(savedLanguage);
-        languageText.innerText = 'ENG';
-        svgIdn.setAttribute('src', '/public/assets/icon-eng.png');
-        localStorage.setItem('language', 'eng');
-    } else if(savedLanguage === 'idn') {
-        setLanguage(savedLanguage);
-        languageText.innerText = 'IDN';
-        svgIdn.setAttribute('src', '/public/assets/icon-idn.png');
-        localStorage.setItem('language', 'idn');
-    }
-});
-
-
-eng.addEventListener('click', function () {
-    languageText.innerText = 'ENG';
-    svgIdn.setAttribute('src', '/public/assets/icon-eng.png');
-    setLanguage('eng');
-    changeLanguage('eng');
-});
-
-
-idn.addEventListener('click', function () {
-    languageText.innerText = 'IDN';
-    svgIdn.setAttribute('src', '/public/assets/icon-idn.png');
-    setLanguage('idn');
-    changeLanguage('idn');
-});
-
 
 const lang = {
     idn: {
@@ -443,39 +426,38 @@ function setLanguage(language) {
     document.getElementById('footer-title').innerText = selectedLang.footer.title;
     document.getElementById('footer-button').innerText = selectedLang.footer.button;
 
+    document.getElementById('about-header').innerText = selectedLang.history.header;
+    document.getElementById('history-title').innerText = selectedLang.history.title;
+    document.getElementById('history-paragraph').innerText = selectedLang.history.paragraph;
+    document.getElementById('history-button').innerText = selectedLang.history.button;
+    document.getElementById('geografis-title').innerText = selectedLang.geografis.title;
+    document.getElementById('geografis-paragraph').innerText = selectedLang.geografis.paragraph;
+    document.getElementById('geografis-button').innerText = selectedLang.geografis.button;
+    
+    document.getElementById('destination-header').innerText = selectedLang.destination2.header;
+    document.getElementById('destination-title-2').innerText = selectedLang.destination2.title;
+    document.getElementById('destination-subtitle-2').innerText = selectedLang.destination2.subtitle;
+    document.getElementById('destination-link-1').innerText = selectedLang.destination2.link;
+    document.getElementById('destination-link-2').innerText = selectedLang.destination2.link;
+    document.getElementById('destination-link-3').innerText = selectedLang.destination2.link;
+    document.getElementById('destination-link-4').innerText = selectedLang.destination2.link;
+    document.getElementById('destination-link-5').innerText = selectedLang.destination2.link;
+    document.getElementById('destination-link-6').innerText = selectedLang.destination2.link;
+
+    document.getElementById('fav-header').innerText = selectedLang.favorite.header;
+    document.getElementById('fav-title').innerText = selectedLang.favorite.title;
+    document.getElementById('fav-subtitle').innerText = selectedLang.favorite.subtitle;
+    document.getElementById('fav-link-1').innerText = selectedLang.favorite.link;
+    document.getElementById('fav-link-2').innerText = selectedLang.favorite.link;
+    document.getElementById('fav-link-3').innerText = selectedLang.favorite.link;
+    document.getElementById('fav-link-4').innerText = selectedLang.favorite.link;
+    document.getElementById('fav-link-5').innerText = selectedLang.favorite.link;
+    document.getElementById('fav-link-6').innerText = selectedLang.favorite.link;
+
     document.getElementById('footer-home').innerText = selectedLang.footer.home;
     document.getElementById('footer-about').innerText = selectedLang.footer.about;
     document.getElementById('footer-destination').innerText = selectedLang.footer.destination;
     document.getElementById('footer-favorite').innerText = selectedLang.footer.favorite;
-
-    // document.getElementById('about-header').innerText = selectedLang.history.header;
-    // document.getElementById('history-title').innerText = selectedLang.history.title;
-    // document.getElementById('history-paragraph').innerText = selectedLang.history.paragraph;
-    // document.getElementById('history-button').innerText = selectedLang.history.button;
-    // document.getElementById('geografis-title').innerText = selectedLang.geografis.title;
-    // document.getElementById('geografis-paragraph').innerText = selectedLang.geografis.paragraph;
-    // document.getElementById('geografis-button').innerText = selectedLang.geografis.button;
-    
-    // document.getElementById('destination-header').innerText = selectedLang.destination2.header;
-    // document.getElementById('destination-title-2').innerText = selectedLang.destination2.title;
-    // document.getElementById('destination-subtitle-2').innerText = selectedLang.destination2.subtitle;
-    // document.getElementById('destination-link-1').innerText = selectedLang.destination2.link;
-    // document.getElementById('destination-link-2').innerText = selectedLang.destination2.link;
-    // document.getElementById('destination-link-3').innerText = selectedLang.destination2.link;
-    // document.getElementById('destination-link-4').innerText = selectedLang.destination2.link;
-    // document.getElementById('destination-link-5').innerText = selectedLang.destination2.link;
-    // document.getElementById('destination-link-6').innerText = selectedLang.destination2.link;
-
-    // document.getElementById('fav-header').innerText = selectedLang.favorite.header;
-    // document.getElementById('fav-title').innerText = selectedLang.favorite.title;
-    // document.getElementById('fav-subtitle').innerText = selectedLang.favorite.subtitle;
-    // document.getElementById('fav-link-1').innerText = selectedLang.favorite.link;
-    // document.getElementById('fav-link-2').innerText = selectedLang.favorite.link;
-    // document.getElementById('fav-link-3').innerText = selectedLang.favorite.link;
-    // document.getElementById('fav-link-4').innerText = selectedLang.favorite.link;
-    // document.getElementById('fav-link-5').innerText = selectedLang.favorite.link;
-    // document.getElementById('fav-link-6').innerText = selectedLang.favorite.link;
-
 
     localStorage.setItem('language', language);
 }
